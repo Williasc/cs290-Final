@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<title>Movie Database</title>
+	<meta name="description" content="Movie Database">
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+  <script type="text/javascript" src="jquery-1.8.0.min.js"></script>
+  <script type="text/javascript">
+  //I spent so much time trying to figure out this AJAX call and couldn't ever even figure out where my problem was
+  $(document).ready(function(){
+      $('#username').keyup(function(){
+          var username = $(this).val();
+          var Result = $('#message');
+          if(username.length > 2) {
+              Result.html('Loading...');
+              var dataPass = 'action=availability&username='+username;
+              $.ajax({
+                type : 'POST',
+                data : dataPass,
+                url  : 'check_username.php',
+                success: function(responseText){
+                    if(responseText == 0){
+                        Result.html('Username available');
+                    }
+                    else if(responseText > 0){
+                        Result.html('Username already in use');
+                    }
+                }
+              });
+          }else{
+              Result.html('Enter atleast 3 characters');
+          }
+          if(username.length == 0) {
+              Result.html('');
+          }
+      });
+  });
+</script>
+
+</head>
+<body>  
+
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <form class="navbar-form navbar-right" role="button" action="login.php" method="POST">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Username" required name="u_name" id="u_name">
+          <input type="password" class="form-control" placeholder="Password" required name="u_pass" id="u_pass">
+        </div>
+        <button type="submit" class="btn btn-default">Sign In</button>
+      </form>
+      <!-- <ul class="nav navbar-nav">
+        <li class="active"><a href="1.html">Home <span class="sr-only">(current)</span></a></li>
+      </ul> -->
+    </div>
+  </nav>
+
+    <div class="container">
+
+      <div class="jumbotron">
+        <h1>Welcome to the Movie Database</h1>
+        <p class="lead">Share your favorite movies with other people and discuss what makes them great.</p>
+        <div class="container">
+
+            <form action="register.php" method="POST">
+              <table>
+                <tr><td><h2 class="form-signin-heading">Not a member? Sign up!</h2></td></tr>
+                <tr><td><label for="username" class="sr-only">Username</label>
+                <input type="text" name="username" id="username" placeholder="Username" required autofocus onBlur="checkAvailability()"></td>
+                <td id="message" name="message"></td></tr>
+                <tr><td><label for="userpassword" class="sr-only">Password</label>
+                <input type="text" name= "userpassword" id="userpassword" placeholder="Password" required></td></tr></table>
+                <button class="btn btn-med btn-primary" type="submit">Sign up</button>
+            </form>
+
+        </div> <!-- /container -->
+      </div>
+
+      <footer class="footer">
+        <p>Powered by <a href="http://getbootstrap.com">Bootstrap</a> and <a href="https://twitter.com/mdo">@mdo</a>'s official template.</p>
+      </footer>
+
+    </div> <!-- /container -->
+
+
+
+	<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+</body>
+</html>
